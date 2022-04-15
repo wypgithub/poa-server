@@ -1,0 +1,19 @@
+server:
+  port: 8088
+
+spring:
+  datasource:
+    url: jdbc:sqlserver://dpoa-sql.database.windows.net:1433;database=Cura-DevTest;
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: siloon
+    password: Indark116116116
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
