@@ -21,12 +21,6 @@ public class Firm {
 
     private String name;
 
-    private String certifiedRegion;
-
-    private String lawFirmRegistrationNumber;
-
-    private Integer numberOfAccounts;
-
     @Column(name = "address_1")
     private String address1;
 

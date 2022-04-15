@@ -22,8 +22,8 @@ public class ExceptionCatch {
      */
     @ResponseBody
     @ExceptionHandler(PoaException.class)
-    public ResponseEntity<PoaException> poaException(PoaException e) {
-        return ResponseEntity.status(e.getCode()).body(e);
+    public ResponseEntity<String> poaException(PoaException e) {
+        return ResponseEntity.status(e.getCode()).body(e.getMessage());
     }
 
 
