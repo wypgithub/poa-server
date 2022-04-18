@@ -1,29 +1,41 @@
 package com.poa.server.util;
 
+import cn.hutool.core.codec.Base64;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 
+import com.auth0.jwk.Jwk;
+import com.auth0.jwk.JwkException;
+import com.auth0.jwk.JwkProvider;
+import com.auth0.jwk.UrlJwkProvider;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.poa.server.entity.User;
 import com.poa.server.exception.PoaException;
-import com.poa.server.util.MailContentUtil;
-import com.poa.server.util.UserUtil;
 import org.apache.commons.lang3.StringUtils;
 
 
-import org.apache.http.entity.StringEntity;
-import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Map;
 import java.util.Random;
 
@@ -58,6 +70,92 @@ public class AzureAPI {
     }
 
 
+    private static String access_token(){
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(30000);// 设置连接超时，单位毫秒
+        requestFactory.setReadTimeout(30000);  //设置读取超时
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setRequestFactory(requestFactory);
+
+
+        String url = "https://login.microsoftonline.com/da6daa47-8700-4908-a5a0-990bccb64953/oauth2/v2.0/token";
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
+
+        LinkedMultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<>();
+        paramMap.add("client_id", "01106f31-9c37-4ff4-bca6-a029170e4e9a");
+        paramMap.add("scope", "https://graph.microsoft.com/.default");
+        paramMap.add("client_secret", "oHy_RyQiky9Ak5Kem~q_P6a32nKc.56v~_");
+        paramMap.add("grant_type", "client_credentials");
+        HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity = new HttpEntity<>(paramMap, headers);
+
+        ResponseEntity<Map> exchange = restTemplate.postForEntity(url, httpEntity, Map.class);
+
+
+        String access_token = exchange.getBody().get("access_token").toString();
+        System.out.println(access_token);
+
+        return access_token;
+    }
+
+    public static void main(String[] args) {
+        String access_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJleHAiOjE2NTAyOTY5MjAsIm5iZiI6MTY1MDI5MzMyMCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9wb2FkZXZhZGIyYy5iMmNsb2dpbi5jb20vNDZkMWQ4NjctZWNhZC00Mjg2LTg2YWYtNWFmM2UwNzk0YTkzL3YyLjAvIiwic3ViIjoiMDZjNDJlYzMtYWE4YS00Mzk0LWFjZDEtNDE3MDE4ZDExYWJlIiwiYXVkIjoiYjk5YThkOWMtMzVhYS00MWZhLThhZjktNzAzYzBmZmNiYTFiIiwibm9uY2UiOiJkZWZhdWx0Tm9uY2UiLCJpYXQiOjE2NTAyOTMzMjAsImF1dGhfdGltZSI6MTY1MDI5MzMyMCwiZXh0ZW5zaW9uX3JvbGUiOiJCcm9rZXJfTWFuYWdlciIsImdpdmVuX25hbWUiOiJkZW5nIiwidGZwIjoiQjJDXzFfRF9QT0EifQ.J70ekmpmXGKGHl6mma9w7RoKg52Y7nB57adUbu0VLxOkisDM4mX1_5dEw5e9Lh6i5GteJDjrlHkvCAw-EYuEZiLutwxb58OmCeuda99jraJThAscykAN73D-bMg7sfmVRqCssZ37y1zvUHO3KMkxFrpNGLND1eIFNMBcgsPHXHAtmxupjk4GhV156nrUx4DiXpHY5_Zy6Zv-p2BloaRxk7eiJ0z0eMc4SFMwbSdyKwfZyi-LkRz8voScdPIrm9w3wNFsxqor98ps5uw4MEuF5FwKSpE_xtcs7Lqr_OzCGUn3UqabTgiXryatEiI47TjS5VjjXKZ5z0_3_0-TXW6d-g";
+
+
+        System.out.println(11111111);
+        /*Jwts.parser().setSigningKey("X5eXk4xyojNFum1kl2Ytv8dlNP4-c57dO6QGTVBwaNk").parseClaimsJws(access_token);
+        System.out.println(11111111);*/
+
+
+        DecodedJWT jwt = JWT.decode(access_token());
+
+        System.out.println(new String(Base64.decode(jwt.getHeader()).toString()));
+        System.out.println(Base64.decode(jwt.getSignature()));
+        System.out.println(Base64.decode(jwt.getPayload()));
+
+
+
+
+        System.out.println("JWT Key ID is : " + jwt.getKeyId());
+
+        JwkProvider provider = null;
+        Jwk jwk = null;
+        Algorithm algorithm = null;
+
+        try {
+           URL keysURL = new URL("https://login.microsoftonline.com/common/discovery/v2.0/keys");
+            provider = new UrlJwkProvider(keysURL);
+            jwk = provider.get(jwt.getKeyId());
+
+
+            PublicKey publicKey = jwk.getPublicKey();
+
+            //Jwts.parser().setSigningKey(publicKey).parseClaimsJws(access_token);
+
+
+/*
+            byte[] byteKey = jwt.getKeyId().getBytes();
+            X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(byteKey);
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            PrivateKey privateKey = keyFactory.generatePrivate(x509EncodedKeySpec);*/
+
+
+
+
+
+            algorithm = Algorithm.RSA256((RSAPublicKey) publicKey, null);
+            algorithm.verify(jwt);
+            // if the token signature is invalid, the method will throw
+            // SignatureVerificationException
+
+            System.out.println("JWT Validation completed.");
+
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+
+        }
+    }
 
     /**
      * get user info
