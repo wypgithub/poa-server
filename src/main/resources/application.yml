@@ -1,12 +1,23 @@
 server:
-  port: 8088
+  port: 8085
 
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          azure:
+            client-id: ${AD_CLIENT_ID}
+            client-secret: ${AD_CLIENT_SECRET}
   datasource:
     url: jdbc:sqlserver://dpoa-sql.database.windows.net:1433;database=Cura-DevTest;
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     username: siloon
     password: Indark116116116
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 10
+      max-lifetime: 60000
   main:
     allow-bean-definition-overriding: true
   servlet:
@@ -17,3 +28,90 @@ spring:
     hibernate:
       ddl-auto: update
 
+
+azure:
+  activedirectory:
+    tenant-id: da6daa47-8700-4908-a5a0-990bccb64953
+    active-directory-groups: group1, group2
+
+
+
+
+# App Properties
+dpoa:
+  app:
+    # spring security param
+    jwtSecret: DPOA-Secret-Key
+    jwtExpirationMs: 3900000
+  # redis key prefix
+  redis-key:
+    # file id auto-increasing
+    file-id-incr: file-id-incr
+    # poa id auto-increasing
+    poa-id-incr: poa-id-incr
+    # notary id auto-increasing
+    notary-id-incr: notary-id-incr
+    # used to save refresh token
+    refresh-token: refresh-token
+    # used to save login user
+    azure-ad-user-id: azure-ad-user-id
+    # used to save verify code
+    verify-code:
+      verify-code: verify-code
+      share-file-to-user: share-file-to-user
+      sign-verify-code: sign-verify-code
+  # azure api location
+  azure-api-prefix: https://graph.microsoft.com/v1.0/
+  # communication service
+  twilio:
+    # mail service param
+    mail:
+      mail-from: imxushuai@gmail.com
+      api-key: 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
+      template:
+        test-mail: d-0f34785fab534075a65d37981cdec50c
+    # sms service param
+    sms:
+      account-sid: AC39f66be9f099aef7cf839d5fdfa78aa1
+      auth-token: 99dac7c329f068285c249dc0ee263bfd
+      sms-from: +12267903641
+  # azure storage information
+  azure-storage:
+    account-name: curadevtest
+    account-key: hTwnewpHnjKMyhif5xaoXgBagzdIz3a/Mcs1StppBvqZuXJYwPZXt1glLlBNo2ZHYDFjbzykWMs6taslarQO2g==
+  # azure ad information
+  azure-ad:
+    #    tenant-id: 5da3601e-03b7-4a70-bebf-b229f7f05272
+    tenant-id: da6daa47-8700-4908-a5a0-990bccb64953
+    client:
+      user-management-client:
+        #        id: 1466929f-96aa-4c78-b2aa-bd4c253ec9f5
+        #        key: wr-5OltQrU~34_bCvzcIjZL-Nn~b1v~T3M
+        id: 01106f31-9c37-4ff4-bca6-a029170e4e9a
+        key: oHy_RyQiky9Ak5Kem~q_P6a32nKc.56v~_
+  # email subject
+  email-subject:
+    assessor: Assessor Request
+    sdm: SDM Request
+    share: File Share
+    notification: Notification
+    revokeConsent: Revoked POA Consent
+    uploadAssessment: Successful Capacity Assessment Upload
+    revokePoa: Successful PoA Revocation
+  frontend:
+    ip: https://testdevad.canadapoaregistry.com
+    port: 443
+  b2c-info:
+    domain: curadevtest.onmicrosoft.com
+  ad-api-info:
+    api-client-id: 0a0f35e4-ae4e-4645-88ca-050db1bb19b3
+    api-client-secret: c7qkUvyM.7LfG5Jy66x_.NJLu.S.CHj23.
+  # 3 day
+  expire-date: 259200000
+  mail:
+    smtp:
+      host: smtp.pepipost.com
+      port: 587
+      username: poadevuw
+      password: poadevuw_33c95c0f72e4025f77f9fcfde0813e0f
+      from: it@curacompliance.com

@@ -4,6 +4,7 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.poa.server.exception.PoaException;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -94,7 +95,7 @@ public class UserUtil {
 
     public static String getPhone(JSONObject user) {
         if (user == null || StringUtils.isBlank(user.getStr("id"))) {
-            throw new PoaException("this account does not exists!");
+            throw new PoaException(400, "this account does not exists!");
         }
         String phoneNumber = user.getStr("extension_01106f319c374ff4bca6a029170e4e9a_phoneNumber");
         String countryCode = user.getStr("extension_01106f319c374ff4bca6a029170e4e9a_countryCode");
@@ -103,7 +104,7 @@ public class UserUtil {
 
     public static String getName(JSONObject user) {
         if (user == null || StringUtils.isBlank(user.getStr("id"))) {
-            throw new PoaException("this account does not exists!");
+            throw new PoaException(400, "this account does not exists!");
         }
         return user.getStr("givenName") + " " + user.getStr("surname");
     }

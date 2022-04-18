@@ -14,11 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class FirmController {
 
     @Autowired
-    private final FirmService firmService;
-
-    public FirmController(FirmService firmService) {
-        this.firmService = firmService;
-    }
+    private FirmService firmService;
 
     @PostMapping
     @AccessAuthorize(RoleType.SYSADMIN)
@@ -35,10 +31,14 @@ public class FirmController {
     @GetMapping("list")
     @AccessAuthorize(RoleType.SYSADMIN)
     public ResponseMsg findList() {
-        return ResponseMsg.ok();
+        return firmService.listAll();
     }
 
-
+    @GetMapping("delete/{id}")
+    @AccessAuthorize(RoleType.SYSADMIN)
+    public ResponseMsg delete(@PathVariable String id) {
+        return firmService.delete(id);
+    }
 
 
 

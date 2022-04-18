@@ -1,15 +1,19 @@
 package com.poa.server.security;
 
-import org.springframework.context.annotation.Configuration;
 
+import com.poa.server.security.jwt.AuthEntryPointJwt;
+import com.poa.server.security.jwt.AuthTokenFilter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 @Configuration
-//@EnableWebSecurity
-//@EnableGlobalMethodSecurity(
-//		// securedEnabled = true,
-//		// jsr250Enabled = true,
-//		prePostEnabled = true)
-public class WebSecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
-	/*@Autowired
+/*@EnableWebSecurity
+@EnableGlobalMethodSecurity(
+		securedEnabled = true,
+		jsr250Enabled = true,
+		prePostEnabled = true)*/
+public class WebSecurityConfig {/*extends WebSecurityConfigurerAdapter
+	@Autowired
 	UserDetailsServiceImpl userDetailsService;
 
 	@Autowired
