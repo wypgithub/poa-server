@@ -33,6 +33,15 @@ public class Firm {
 
     private String province;
 
+    private String adminLastName;
+
+    private String adminMiddleName;
+
+    private String adminFirstName;
+
+    private String adminEmail;
+
+
     private Date createdTime;
 
     private Date updatedTime;

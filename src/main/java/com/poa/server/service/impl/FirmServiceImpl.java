@@ -1,10 +1,10 @@
 package com.poa.server.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.poa.server.entity.Firm;
 import com.poa.server.repository.FirmRepository;
 import com.poa.server.service.FirmService;
 import com.poa.server.util.ResponseMsg;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +45,19 @@ public class FirmServiceImpl implements FirmService {
     public ResponseMsg findById(String id) {
 
         return ResponseMsg.ok(firmRepository.findById(id));
+    }
+
+    @Override
+    public ResponseMsg delete(String id) {
+        firmRepository.deleteById(id);
+
+        return ResponseMsg.ok();
+    }
+
+    @Override
+    public ResponseMsg listAll() {
+
+        return ResponseMsg.ok(firmRepository.findAll());
     }
 
 

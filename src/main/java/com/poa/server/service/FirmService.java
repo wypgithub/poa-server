@@ -13,6 +13,10 @@ public interface FirmService {
 
     ResponseMsg findById(String id);
 
+    ResponseMsg delete(String id);
+
+    ResponseMsg listAll();
+
 
 
 }
