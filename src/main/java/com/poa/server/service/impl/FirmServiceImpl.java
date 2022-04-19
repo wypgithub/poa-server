@@ -1,6 +1,6 @@
 package com.poa.server.service.impl;
 
-import com.poa.server.entity.Firm;
+import com.poa.server.entity.PoaFirm;
 import com.poa.server.repository.FirmRepository;
 import com.poa.server.service.FirmService;
 import com.poa.server.util.ResponseMsg;
@@ -29,7 +29,7 @@ public class FirmServiceImpl implements FirmService {
      * @return saved firm
      */
     @Override
-    public ResponseMsg save(Firm firm) {
+    public ResponseMsg save(PoaFirm firm) {
         Date date = new Date();
         if (StringUtils.isBlank(firm.getId())) {
             firm.setCreatedTime(date);

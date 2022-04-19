@@ -1,9 +1,8 @@
 package com.poa.server.controller;
 
 
-import cn.hutool.json.JSONObject;
 import com.poa.server.annotation.AccessAuthorize;
-import com.poa.server.entity.Firm;
+import com.poa.server.entity.PoaFirm;
 import com.poa.server.service.FirmService;
 import com.poa.server.util.AzureAPI;
 import com.poa.server.util.ResponseMsg;
@@ -28,7 +27,7 @@ public class FirmController {
 
     @PostMapping
     @AccessAuthorize(RoleType.SYSADMIN)
-    public ResponseMsg save(@RequestBody Firm firm) {
+    public ResponseMsg save(@RequestBody PoaFirm firm) {
         return firmService.save(firm);
     }
 

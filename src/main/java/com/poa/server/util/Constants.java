@@ -8,6 +8,25 @@ import java.util.concurrent.ConcurrentHashMap;
  * application constants
  */
 public final class Constants {
+    /**
+     * file type
+     */
+    public static class FileType{
+        public static final int Profile = 1;
+        public static final int Document = 2;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public static final ConcurrentHashMap<String, Integer> contactUsLimitingIpMap = new ConcurrentHashMap<>();
 

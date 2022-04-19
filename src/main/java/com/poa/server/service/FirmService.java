@@ -1,6 +1,6 @@
 package com.poa.server.service;
 
-import com.poa.server.entity.Firm;
+import com.poa.server.entity.PoaFirm;
 import com.poa.server.util.ResponseMsg;
 
 /**
@@ -9,7 +9,7 @@ import com.poa.server.util.ResponseMsg;
  * @Date 2022/4/15
  */
 public interface FirmService {
-    ResponseMsg save(Firm firm);
+    ResponseMsg save(PoaFirm firm);
 
     ResponseMsg findById(String id);
 
