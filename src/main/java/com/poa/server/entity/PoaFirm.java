@@ -11,8 +11,8 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "firm")
-public class Firm {
+@Table
+public class PoaFirm {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
