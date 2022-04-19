@@ -2,8 +2,8 @@ package com.poa.server.security.services;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONObject;
-import com.dpoa.server.models.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.poa.server.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -61,14 +61,14 @@ public class UserDetailsImpl implements UserDetails {
 		this.authorities = authorities;
 	}
 
-	public static UserDetailsImpl build(UserEntity user) {
-		List<GrantedAuthority> authorities = user.getRoles()
+	public static UserDetailsImpl build(User user) {
+	/*	List<GrantedAuthority> authorities = user.getRoles()
 				.stream()
 				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
-				.collect(Collectors.toList());
+				.collect(Collectors.toList());*/
 		UserDetailsImpl userDetails = new UserDetailsImpl();
 		BeanUtil.copyProperties(user, userDetails);
-		userDetails.setAuthorities(authorities);
+		userDetails.setAuthorities(null);
 
 		return userDetails;
 	}
