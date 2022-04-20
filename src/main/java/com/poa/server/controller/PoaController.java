@@ -41,6 +41,9 @@ public class PoaController {
     @PostMapping("/upload/{fileType}")
     @AccessAuthorize(RoleType.ALL)
     public ResponseMsg uploadFile(@PathVariable String fileType, @RequestParam("file") MultipartFile file) throws IOException {
+
+
+
         return poaService.uploadFile(fileType, file);
     }
 
