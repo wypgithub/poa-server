@@ -13,7 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>poa-server</name>
     <description>poa-server</description>
-
+    <packaging>jar</packaging>
     <properties>
         <java.version>1.8</java.version>
         <azure.version>2.3.0</azure.version>
