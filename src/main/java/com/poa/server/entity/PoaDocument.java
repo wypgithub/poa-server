@@ -29,7 +29,7 @@ public class PoaDocument {
     private String executed;
     private String flag;
 
-
+    private Integer aoeStatus;
     private Integer currentStep;
 
 
