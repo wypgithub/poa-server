@@ -42,8 +42,6 @@ public class PoaController {
     @AccessAuthorize(RoleType.LAWYER)
     public ResponseMsg uploadFile(@PathVariable String fileType, @RequestParam("file") MultipartFile file) throws IOException {
 
-
-
         return poaService.uploadFile(fileType, file);
     }
 
@@ -77,7 +75,9 @@ public class PoaController {
                 }
             }
 
-            file.delete();
+            if(file != null){
+                file.delete();
+            }
         }
 
         return null;
