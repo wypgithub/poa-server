@@ -63,9 +63,9 @@ dpoa:
       sms-from: +12267903641
   # azure storage information
   azure-storage:
-    account-name: curadevtest
-    account-key: hTwnewpHnjKMyhif5xaoXgBagzdIz3a/Mcs1StppBvqZuXJYwPZXt1glLlBNo2ZHYDFjbzykWMs6taslarQO2g==
-    containerName: 1111
+    account-name: lawsystem
+    account-key: OVkaF/4J/Qz6U3cUVKQqLlBUrlRY4r1f5vDUmqYoQyRAjmOAAqxsuND48b4hlSwRUHAolkY//9VblazKeiP/yQ==
+    containerName: lawy-system-files
   # azure ad information
   azure-ad:
     #    tenant-id: 5da3601e-03b7-4a70-bebf-b229f7f05272
