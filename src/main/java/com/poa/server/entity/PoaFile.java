@@ -3,10 +3,8 @@ package com.poa.server.entity;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @description
@@ -27,8 +25,12 @@ public class PoaFile {
 
     private String refId;
     private String name;
-    private String path;
+    private String azureFileName;
 
 
+    private String createBy;
+    private String updateBy;
+    private Date createdTime;
+    private Date updateTime;
 
 }

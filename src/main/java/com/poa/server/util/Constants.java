@@ -8,12 +8,20 @@ import java.util.concurrent.ConcurrentHashMap;
  * application constants
  */
 public final class Constants {
-    /**
-     * file type
-     */
+
     public static class FileType{
         public static final int Profile = 1;
         public static final int Document = 2;
+
+    }
+
+    public static class ProfileStatus{
+        public static final String Open = "Open";
+
+    }
+
+    public static class AoeStatus{
+        public static final String Separate = "separateFile";
 
     }
 
@@ -24,27 +32,34 @@ public final class Constants {
 
 
 
+/*
 
 
 
 
     public static final ConcurrentHashMap<String, Integer> contactUsLimitingIpMap = new ConcurrentHashMap<>();
 
-    /**
+    */
+/**
      * notary relation type
-     */
+     *//*
+
     public static final String NOTARY_RELATION_AFFILIATED_THIRD_PARTY = "AffiliatedThirdParty";
     public static final String NOTARY_RELATION_WITNESS = "Witness";
 
-    /**
+    */
+/**
      * poa relation type
-     */
+     *//*
+
     public static final String POA_RELATION_SDM = "SDM";
     public static final String POA_RELATION_WITNESS = "Witness";
 
-    /**
+    */
+/**
      * audit log action type
-     */
+     *//*
+
     public static final String AUDIT_LOG_ACTION_UPLOAD = "Upload";
     public static final String AUDIT_LOG_ACTION_SAVE_DRAFT = "Save Draft";
     public static final String AUDIT_LOG_ACTION_VIEW = "View";
@@ -52,28 +67,36 @@ public final class Constants {
     public static final String AUDIT_LOG_ACTION_ACTIVATED = "Activated";
     public static final String AUDIT_LOG_ACTION_REVOKED = "Revoked";
 
-    /**
+    */
+/**
      * audit log type
-     */
+     *//*
+
     public static final String AUDIT_LOG_POA = "PoA";
     public static final String AUDIT_LOG_NOTARY = "Notary";
 
-    /**
+    */
+/**
      * poa upload or compose
-     */
+     *//*
+
     public static final String POA_UPLOAD = "upload";
     public static final String POA_COMPOSE = "compose";
 
-    /**
+    */
+/**
      * permanent time
-     */
+     *//*
+
     public static final Date PERMANENT_TIME = new Date(32472115200000L);
 
 
 
-    /**
+    */
+/**
      * poa status
-     */
+     *//*
+
     public enum PoaStatusEnum {
         ACTIVATED("Activated"),
         REVOKED("Revoked"),
@@ -90,9 +113,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * poa type
-     */
+     *//*
+
     public enum PoaTypeEnum {
         PERSONAL_HEALTH("Personal Health"),
         FINANCE_PROPERTY("Finance Property"),
@@ -107,9 +132,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * notary status
-     */
+     *//*
+
     public enum NotaryStatusEnum {
         VERIFIED("Verified"),
         PENDING_VERIFIED("PendingVerified"),
@@ -125,9 +152,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * user from source
-     */
+     *//*
+
     public enum UserSourceEnum {
         GOOGLE("Google"),
         FACEBOOK("Facebook"),
@@ -144,9 +173,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * user status
-     */
+     *//*
+
     public enum UserStatusEnum {
         TO_BE_ACTIVATED("ToBeActivated"),
         ACTIVATED("Activated"),
@@ -162,9 +193,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * entity type
-     */
+     *//*
+
     public enum EntityTypeEnum {
         POA("PoA"),
         NOTARY("Notary"),
@@ -180,9 +213,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * requests type
-     */
+     *//*
+
     public enum RequestsTypeEnum {
         POA_ACCESS("PoA_Access"),
         ASSESSOR_REQUEST("Assessor_Request"),
@@ -199,9 +234,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * requests status
-     */
+     *//*
+
     public enum RequestsStatusEnum {
         PENDING("Pending"),
         ACCEPTED("Accepted"),
@@ -218,9 +255,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * share recipient type
-     */
+     *//*
+
     public enum ShareRecipientTypeEnum {
         SDM("SDM"),
         LAWYER("Lawyer"),
@@ -238,9 +277,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * template type
-     */
+     *//*
+
     public enum TemplateTypeEnum {
         COMPOSE("compose"),
         AFFIDAVIT("affidavit"),
@@ -255,9 +296,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * notice state
-     */
+     *//*
+
     public enum NoticeStateEnum {
         UNREAD("Unread"),
         READED("Readed")
@@ -272,9 +315,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * notice action type
-     */
+     *//*
+
     public static final String OPERATOR_REGEX = "\\$\\{operatorId\\}";
     public static final String RECEIVER_REGEX = "\\$\\{receiverId\\}";
     public enum NoticeActionEnum {
@@ -312,9 +357,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * notice action type
-     */
+     *//*
+
     public enum NoticeActionTypeEnum {
         SDM("SDM"),
         ASSESSOR("Assessor"),
@@ -330,9 +377,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * authority expire type
-     */
+     *//*
+
     public enum AuthorityExpireTypeEnum {
         PERMANENT("Permanent"),
         TIME_LIMIT("Time_Limit")
@@ -347,9 +396,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * poa authority authority type
-     */
+     *//*
+
     public enum AuthorityTypeEnum {
         ALL("All", 1),
         ACCESS("Access", 2),
@@ -371,9 +422,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * assessment status
-     */
+     *//*
+
     public enum AssessmentsStatusEnum {
         NEW("New"),
         ACCEPT("Accept"),
@@ -390,9 +443,11 @@ public final class Constants {
         }
     }
 
-    /**
+    */
+/**
      * user consent flag
-     */
+     *//*
+
     public enum UserConsentFlagEnum {
         PENDING("Pending"),
         ACCEPT("Accept"),
@@ -408,5 +463,6 @@ public final class Constants {
         }
 
     }
+*/
 
 }

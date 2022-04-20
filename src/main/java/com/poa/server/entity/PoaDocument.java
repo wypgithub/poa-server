@@ -23,13 +23,15 @@ public class PoaDocument {
     private String status;
 
     /** Original、Copy of Original、Notarial Copy **/
-    private String fileType;
+    private String uploading;
     private String hardCopy;
-    private String executedProvince;
-    private String executed;
+    private String province;
+    private String virtuallyExecuted;
+    private String affidavit;
+    private String declaration;
     private String flag;
 
-    private Integer aoeStatus;
+
     private Integer currentStep;
 
 
