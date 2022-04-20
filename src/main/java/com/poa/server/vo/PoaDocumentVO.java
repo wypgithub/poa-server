@@ -12,6 +12,7 @@ import java.util.List;
  */
 @Data
 public class PoaDocumentVO implements Serializable {
+    private String profileId;
     private String type;
     private String name;
     private List<PoaFileVO> files;
