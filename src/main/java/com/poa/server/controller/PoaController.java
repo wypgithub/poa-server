@@ -39,7 +39,7 @@ public class PoaController {
     private FileService fileService;
 
     @PostMapping("/upload/{fileType}")
-    @AccessAuthorize(RoleType.ALL)
+    @AccessAuthorize(RoleType.LAWYER)
     public ResponseMsg uploadFile(@PathVariable String fileType, @RequestParam("file") MultipartFile file) throws IOException {
 
 
@@ -48,7 +48,7 @@ public class PoaController {
     }
 
     @GetMapping("download/{fileId}")
-    @AccessAuthorize(RoleType.ALL)
+    @AccessAuthorize(RoleType.LAWYER)
     public ResponseEntity<?> downloadFile(@PathVariable String fileId,
                                           HttpServletRequest request, HttpServletResponse response) {
         File file = null;

@@ -2,9 +2,7 @@ package com.poa.server.config;
 
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
-/*
 import com.azure.storage.common.StorageSharedKeyCredential;
-*/
 import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.management.Azure;
@@ -20,7 +18,7 @@ public class AzureBeanConfig {
     private String endpoint;
 
 
-   /* @Bean
+    @Bean
     public StorageSharedKeyCredential storageSharedKeyCredential(@Value("${dpoa.azure-storage.account-name}") String accountName,
                                                                  @Value("${dpoa.azure-storage.account-key}") String accountKey) {
 
@@ -34,7 +32,7 @@ public class AzureBeanConfig {
                 .endpoint(endpoint)
                 .credential(storageSharedKeyCredential)
                 .buildClient();
-    }*/
+    }
 
     @Bean
     public ApplicationTokenCredentials applicationTokenCredentials(@Value("${dpoa.azure-ad.client.user-management-client.id}") String clientId,
@@ -43,12 +41,12 @@ public class AzureBeanConfig {
         return new ApplicationTokenCredentials(clientId, tenantId, clientKey, AzureEnvironment.AZURE);
     }
 
-    @Bean
+ /*   @Bean
     public Azure.Authenticated authenticated(@Autowired ApplicationTokenCredentials credentials) {
         return Azure.configure()
                 .withLogLevel(LogLevel.BODY)
                 .authenticate(credentials);
-    }
+    }*/
 
 
 

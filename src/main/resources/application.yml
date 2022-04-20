@@ -18,11 +18,7 @@ spring:
       ddl-auto: update
 #  redis:
 #    port: 16379
-mybatis:
-  mapper-locations: classpath:com/dpoa/server/repository
-  type-aliases-package: com.dpoa.server.models
-  configuration:
-    map-underscore-to-camel-case: true
+
 # App Properties
 dpoa:
   app:

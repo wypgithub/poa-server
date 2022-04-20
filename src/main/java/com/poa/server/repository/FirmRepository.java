@@ -8,7 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FirmRepository extends JpaRepository<PoaFirm, String> {
 
-    @Query("SELECT f FROM Firm f, User u " +
-            "WHERE f.id = u.firmId AND u.id = ?1")
-    PoaFirm findByUserId(String userId);
+
 }
