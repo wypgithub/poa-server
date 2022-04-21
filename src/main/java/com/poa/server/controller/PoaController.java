@@ -98,12 +98,6 @@ public class PoaController {
         return poaService.listDocument(profileId);
     }
 
-    @PostMapping("/registry")
-    @AccessAuthorize(RoleType.SYSADMIN)
-    public ResponseMsg listDocument(@RequestBody PoaRegistry registry) {
-
-        return poaService.saveRegistry(registry);
-    }
 
 
 }

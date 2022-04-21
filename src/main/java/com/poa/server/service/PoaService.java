@@ -15,16 +15,14 @@ import com.poa.server.util.UserUtil;
 import com.poa.server.vo.PoaDocumentVO;
 import com.poa.server.vo.PoaFileVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,8 +41,7 @@ public class PoaService {
     private FileRepository fileRepository;
     @Autowired
     private DocumentRepository documentRepository;
-    @Autowired
-    private RegistryRepository registryRepository;
+
 
     public ResponseMsg uploadFile(String fileType, MultipartFile file) throws IOException {
         if (file.isEmpty()) {
@@ -67,9 +64,8 @@ public class PoaService {
         poaFile.setName(fileName);
         poaFile.setAzureFileName(temporaryFile.getName());
 
-        String userId = UserUtil.getUserId();
-        poaFile.setCreateBy(userId);
-        poaFile.setUpdateBy(userId);
+        poaFile.setCreatedTime(new Date());
+        poaFile.setCreateBy(UserUtil.getUserId());
 
         return ResponseMsg.ok(fileRepository.save(poaFile).getId());
     }
@@ -126,10 +122,6 @@ public class PoaService {
     }
 
 
-    public ResponseMsg saveRegistry(PoaRegistry registry) {
-
-        return ResponseMsg.ok(registryRepository.save(registry));
-    }
 
 
 
