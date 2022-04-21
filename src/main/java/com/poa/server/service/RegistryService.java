@@ -19,13 +19,14 @@ public class RegistryService {
     public ResponseMsg saveRegistry(PoaRegistry registry) {
         registry.setCreatedTime(new Date());
         registry.setCreateBy(UserUtil.getUserId());
-        return ResponseMsg.ok(registryRepository.save(registry));
+        registryRepository.save(registry);
+        return ResponseMsg.ok();
     }
 
 
-    public ResponseMsg listDocument(String fullName, String name) {
+    public ResponseMsg listDocument(String email, String type) {
 
-        return ResponseMsg.ok(registryRepository.findByTypeAndName(fullName, name));
+        return ResponseMsg.ok(registryRepository.findByTypeAndName(email, type));
     }
 
 

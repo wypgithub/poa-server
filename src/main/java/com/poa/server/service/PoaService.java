@@ -4,10 +4,12 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
 import com.poa.server.entity.PoaDocument;
 import com.poa.server.entity.PoaFile;
+import com.poa.server.entity.PoaPermission;
 import com.poa.server.entity.PoaRegistry;
 import com.poa.server.exception.PoaException;
 import com.poa.server.repository.DocumentRepository;
 import com.poa.server.repository.FileRepository;
+import com.poa.server.repository.PermissionRepository;
 import com.poa.server.repository.RegistryRepository;
 import com.poa.server.util.Constants;
 import com.poa.server.util.ResponseMsg;
@@ -41,7 +43,8 @@ public class PoaService {
     private FileRepository fileRepository;
     @Autowired
     private DocumentRepository documentRepository;
-
+    @Autowired
+    private PermissionRepository permissionRepository;
 
     public ResponseMsg uploadFile(String fileType, MultipartFile file) throws IOException {
         if (file.isEmpty()) {
@@ -123,6 +126,13 @@ public class PoaService {
 
 
 
+    public ResponseMsg directionRelease(PoaPermission Permission) {
+        Permission.setType(Constants.PermissionType.Registry);
+        permissionRepository.save(Permission);
+
+
+        return ResponseMsg.ok();
+    }
 
 
 

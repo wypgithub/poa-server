@@ -20,17 +20,17 @@ public class RegistryController {
     private RegistryService registryService;
 
     @PostMapping()
-    @AccessAuthorize(RoleType.SYSADMIN)
+    @AccessAuthorize(RoleType.LAWYER)
     public ResponseMsg listDocument(@RequestBody PoaRegistry registry) {
 
         return registryService.saveRegistry(registry);
     }
 
-    @GetMapping("/{type}/{name}")
-    @AccessAuthorize(RoleType.SYSADMIN)
-    public ResponseMsg listRegistry(@PathVariable String fullName, @PathVariable String name) {
+    @GetMapping("/{email}/{type}")
+    @AccessAuthorize(RoleType.LAWYER)
+    public ResponseMsg listRegistry(@PathVariable String email, @PathVariable String type) {
 
-        return registryService.listDocument(fullName, name);
+        return registryService.listDocument(email, type);
     }
 
 

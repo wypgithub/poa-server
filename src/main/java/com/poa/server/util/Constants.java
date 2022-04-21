@@ -12,7 +12,6 @@ public final class Constants {
     public static class FileType{
         public static final int Profile = 1;
         public static final int Document = 2;
-
     }
 
     public static class ProfileStatus{
@@ -25,7 +24,10 @@ public final class Constants {
 
     }
 
-
+    public static class PermissionType{
+        public static final int Registry = 1;
+        public static final int Files = 2;
+    }
 
 
 

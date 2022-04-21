@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface RegistryRepository extends JpaRepository<PoaRegistry, String> {
 
-    @Query("select d from PoaRegistry r,PoaDocument d where d.id = r.documentId and d.type=:type and d.name=:name")
-    List<PoaRegistry> findByTypeAndName(@Param("type") String type, @Param("name")String name);
+    @Query("select d from PoaRegistry r,PoaDocument d,PoaProfile p where r.documentId = d.id" +
+            " and d.profileId = p.id and p.email=:email and d.type=:type ")
+    List<PoaRegistry> findByTypeAndName(@Param("email")String email, @Param("type") String type);
 }
