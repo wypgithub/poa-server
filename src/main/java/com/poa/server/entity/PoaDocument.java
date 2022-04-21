@@ -32,7 +32,12 @@ public class PoaDocument {
     private String flag;
 
 
-    private Integer currentStep;
+    private Integer step;
+    private String consentVault;
+
+
+
+
 
 
    /* private String original;

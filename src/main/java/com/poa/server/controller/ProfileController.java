@@ -28,6 +28,9 @@ public class ProfileController {
         return profileService.save(profile);
     }
 
+
+
+
     @GetMapping("{id}")
     @AccessAuthorize(RoleType.SYSADMIN)
     public ResponseMsg findById(@PathVariable String id) {

@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FirmRepository extends JpaRepository<PoaFirm, String> {
 
-
 }

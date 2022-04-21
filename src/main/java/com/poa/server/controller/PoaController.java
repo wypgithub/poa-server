@@ -2,6 +2,7 @@ package com.poa.server.controller;
 
 import com.poa.server.annotation.AccessAuthorize;
 import com.poa.server.entity.PoaDocument;
+import com.poa.server.entity.PoaRegistry;
 import com.poa.server.exception.PoaException;
 import com.poa.server.service.FileService;
 import com.poa.server.service.PoaService;
@@ -90,7 +91,19 @@ public class PoaController {
         return poaService.saveDocument(documents);
     }
 
+    @GetMapping("/{profileId}/document")
+    @AccessAuthorize(RoleType.SYSADMIN)
+    public ResponseMsg listDocument(@PathVariable String profileId) {
 
+        return poaService.listDocument(profileId);
+    }
+
+    @PostMapping("/registry")
+    @AccessAuthorize(RoleType.SYSADMIN)
+    public ResponseMsg listDocument(@RequestBody PoaRegistry registry) {
+
+        return poaService.saveRegistry(registry);
+    }
 
 
 }

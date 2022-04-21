@@ -4,9 +4,11 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
 import com.poa.server.entity.PoaDocument;
 import com.poa.server.entity.PoaFile;
+import com.poa.server.entity.PoaRegistry;
 import com.poa.server.exception.PoaException;
 import com.poa.server.repository.DocumentRepository;
 import com.poa.server.repository.FileRepository;
+import com.poa.server.repository.RegistryRepository;
 import com.poa.server.util.Constants;
 import com.poa.server.util.ResponseMsg;
 import com.poa.server.util.UserUtil;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +43,8 @@ public class PoaService {
     private FileRepository fileRepository;
     @Autowired
     private DocumentRepository documentRepository;
+    @Autowired
+    private RegistryRepository registryRepository;
 
     public ResponseMsg uploadFile(String fileType, MultipartFile file) throws IOException {
         if (file.isEmpty()) {
@@ -94,5 +99,39 @@ public class PoaService {
         }
         return ResponseMsg.ok();
     }
+
+    public ResponseMsg listDocument(String profileId) {
+        List<PoaDocument> docList = documentRepository.findByProfileId(profileId);
+        if (docList.isEmpty()){
+            return ResponseMsg.error("no data");
+        }
+
+        List<PoaDocumentVO> documents = new ArrayList<>();
+        for (PoaDocument doc: docList){
+            PoaDocumentVO docVO = new PoaDocumentVO();
+            BeanUtil.copyProperties(doc, docVO);
+
+            List<PoaFile> fileList = fileRepository.findByRefId(doc.getId());
+            if (!fileList.isEmpty()){
+                List<PoaFileVO> files = new ArrayList<>();
+                for (PoaFile file: fileList){
+                    files.add(new PoaFileVO(file.getId(), file.getName()));
+                }
+                docVO.setFiles(files);
+            }
+            documents.add(docVO);
+        }
+
+        return ResponseMsg.ok(documents);
+    }
+
+
+    public ResponseMsg saveRegistry(PoaRegistry registry) {
+
+        return ResponseMsg.ok(registryRepository.save(registry));
+    }
+
+
+
 
 }

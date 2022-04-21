@@ -4,6 +4,8 @@ import com.poa.server.entity.PoaDocument;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @description
  * @Author WYP
@@ -12,4 +14,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DocumentRepository extends JpaRepository<PoaDocument, String> {
 
+    List<PoaDocument> findByProfileId(String profileId);
 }

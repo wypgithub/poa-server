@@ -13,4 +13,12 @@ import java.io.Serializable;
 public class PoaFileVO implements Serializable {
     private String fileId;
     private String fileName;
+
+    public PoaFileVO() {
+    }
+
+    public PoaFileVO(String fileId, String fileName) {
+        this.fileId = fileId;
+        this.fileName = fileName;
+    }
 }
