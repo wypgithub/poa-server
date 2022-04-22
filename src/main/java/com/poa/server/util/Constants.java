@@ -16,6 +16,7 @@ public final class Constants {
 
     public static class ProfileStatus{
         public static final String Open = "Open";
+        public static final String Deceased = "Deceased";
 
     }
 

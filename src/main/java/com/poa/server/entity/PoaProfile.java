@@ -2,9 +2,11 @@ package com.poa.server.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @description Profile
@@ -13,20 +15,16 @@ import java.util.Date;
  */
 @Data
 @Entity
-@Table
-public class PoaProfile {
+@EntityListeners(AuditingEntityListener.class)
+public class PoaProfile extends BaseEntity{
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
     private String fileNumber;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fileOpenDate;
-    /** Open、Deceased、Incapable、Inactive **/
-    private String status;
-    private Date date;
-    private String comments;
-
     private String firstName;
     private String middleName;
     private String lastName;
@@ -49,8 +47,13 @@ public class PoaProfile {
     private String province;
     private String postalCode;
 
-    private String createBy;
-    private String updateBy;
-    private Date createdTime;
-    private Date updateTime;
+
+    /** Open、Deceased、Incapable、Inactive **/
+    private String status;
+    private String comments;
+    private Date deathDate;
+    @Transient
+    List<PoaEstateTrustee> estateTrustee;
+
+
 }

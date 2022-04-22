@@ -2,6 +2,10 @@ package com.poa.server.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,8 +33,12 @@ public class PoaEstateTrustee {
     private String email;
     private String phoneNumber;
 
+    @CreatedBy
     private String createBy;
-    private String updateBy;
+    @CreatedDate
     private Date createdTime;
+    @LastModifiedBy
+    private String updateBy;
+    @LastModifiedDate
     private Date updateTime;
 }

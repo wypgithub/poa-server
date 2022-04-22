@@ -1,8 +1,13 @@
 package com.poa.server.repository;
 
 import com.poa.server.entity.PoaProfile;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @description
@@ -11,5 +16,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ProfileRepository extends JpaRepository<PoaProfile, String> {
+
+    @Query(value = "select p.*,(select count(id) from poa_document where profile_id=p.id)files from poa_profile p",
+            countQuery = "select count(*) from poa_profile p",
+            nativeQuery = true)
+    List<Object[]> findProfiles(Pageable pageable);
 
 }
