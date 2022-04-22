@@ -17,8 +17,6 @@ public class RegistryService {
     private RegistryRepository registryRepository;
 
     public ResponseMsg saveRegistry(PoaRegistry registry) {
-        registry.setCreatedTime(new Date());
-        registry.setCreateBy(UserUtil.getUserId());
         registryRepository.save(registry);
         return ResponseMsg.ok();
     }

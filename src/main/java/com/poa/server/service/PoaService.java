@@ -67,8 +67,6 @@ public class PoaService {
         poaFile.setName(fileName);
         poaFile.setAzureFileName(temporaryFile.getName());
 
-        poaFile.setCreatedTime(new Date());
-        poaFile.setCreateBy(UserUtil.getUserId());
 
         return ResponseMsg.ok(fileRepository.save(poaFile).getId());
     }

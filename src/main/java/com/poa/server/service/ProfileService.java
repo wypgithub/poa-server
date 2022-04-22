@@ -3,20 +3,16 @@ package com.poa.server.service;
 import com.poa.server.entity.PoaEstateTrustee;
 import com.poa.server.entity.PoaProfile;
 import com.poa.server.repository.EstateTrusteeRepository;
+import com.poa.server.repository.PageQueryDao;
 import com.poa.server.repository.ProfileRepository;
 import com.poa.server.util.Constants;
 import com.poa.server.util.ResponseMsg;
 import com.poa.server.vo.SearchParamVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
-import java.util.LinkedList;
-import java.util.List;
+import javax.persistence.PersistenceContext;
 
 
 /**
@@ -26,6 +22,8 @@ import java.util.List;
  */
 @Service
 public class ProfileService {
+    @Autowired
+    private PageQueryDao pageQueryDao;
 
     @Autowired
     private ProfileRepository profileRepository;
@@ -74,20 +72,30 @@ public class ProfileService {
 
         }
 
+        StringBuffer querySql = new StringBuffer();
+        querySql.append(" select p.first_name,p.middle_name,p.last_name,count(d.id) as files");
+        querySql.append(" from poa_document d,poa_profile p where d.profile_id=p.id");
 
-        Pageable pageable = PageRequest.of(paramVO.getPageNum(), paramVO.getPageNum());
-        Specification<PoaProfile> specification = (root, query, cb) ->{
-            List<Predicate> predicates = new LinkedList<>();
-            if(StringUtils.isNotBlank(paramVO.getFirstName())){
-                predicates.add(cb.equal(root.get("firstName"), paramVO.getFirstName()));
-            }
-            if(StringUtils.isNotBlank(paramVO.getMiddleName())){
-                predicates.add(cb.equal(root.get("middleName"), paramVO.getMiddleName()));
-            }
 
-            return cb.and(predicates.toArray(new Predicate[predicates.size()]));
-        };
+        if(StringUtils.isNotBlank(paramVO.getFirstName())){
+            querySql.append(String.format(" and p.first_name = '%s'", paramVO.getFirstName()));
+        }
+        if(StringUtils.isNotBlank(paramVO.getMiddleName())){
+            querySql.append(String.format(" and p.middle_name = '%s'", paramVO.getMiddleName()));
+        }
+        if(StringUtils.isNotBlank(paramVO.getLastName())){
+            querySql.append(String.format(" and p.last_name = '%s'", paramVO.getLastName()));
+        }
 
-        return ResponseMsg.ok(profileRepository.findProfiles( pageable));
+        if(StringUtils.isNotBlank(paramVO.getDocumentType())){
+            querySql.append(String.format(" and d.type = '%s'", paramVO.getDocumentType()));
+        }
+
+        querySql.append(" group by p.first_name,p.middle_name,p.last_name");
+
+
+        return ResponseMsg.ok(pageQueryDao.findAll(querySql.toString(), paramVO.getPageNum(), paramVO.getPageSize()));
     }
+
+
 }

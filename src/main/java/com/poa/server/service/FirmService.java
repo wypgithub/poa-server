@@ -28,12 +28,6 @@ public class FirmService{
      * @return saved firm
      */
     public ResponseMsg save(PoaFirm firm) {
-        Date date = new Date();
-        if (StringUtils.isBlank(firm.getId())) {
-            firm.setCreatedTime(date);
-        }
-        firm.setUpdatedTime(date);
-
         firmRepository.save(firm);
 
         return ResponseMsg.ok();

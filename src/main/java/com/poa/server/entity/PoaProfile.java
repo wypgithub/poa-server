@@ -52,6 +52,7 @@ public class PoaProfile extends BaseEntity{
     private String status;
     private String comments;
     private Date deathDate;
+
     @Transient
     List<PoaEstateTrustee> estateTrustee;
 
