@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table
-public class PoaDocument {
+public class PoaDocument extends BaseEntity{
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -49,9 +49,5 @@ public class PoaDocument {
     private String referStatute;
 */
 
-    private String createBy;
-    private String updateBy;
-    private Date createdTime;
-    private Date updateTime;
 
 }

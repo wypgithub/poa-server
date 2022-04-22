@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table
-public class PoaPermission {
+public class PoaPermission extends BaseEntity{
 
     @Id
     @GeneratedValue(generator = "system-uuid")

@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table
-public class PoaFile {
+public class PoaFile extends BaseEntity{
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
@@ -28,9 +28,5 @@ public class PoaFile {
     private String azureFileName;
 
 
-    private String createBy;
-    private String updateBy;
-    private Date createdTime;
-    private Date updateTime;
 
 }

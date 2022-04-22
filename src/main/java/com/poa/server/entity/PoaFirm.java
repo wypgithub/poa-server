@@ -3,7 +3,6 @@ package com.poa.server.entity;
 
 import lombok.Data;
 
-import java.util.Date;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,7 +11,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table
-public class PoaFirm {
+public class PoaFirm extends BaseEntity{
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -42,9 +41,6 @@ public class PoaFirm {
     private String adminEmail;
 
 
-    private Date createdTime;
-
-    private Date updatedTime;
 
 
 

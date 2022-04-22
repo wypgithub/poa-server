@@ -21,7 +21,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table
-public class PoaEstateTrustee {
+public class PoaEstateTrustee extends BaseEntity{
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
@@ -33,12 +33,5 @@ public class PoaEstateTrustee {
     private String email;
     private String phoneNumber;
 
-    @CreatedBy
-    private String createBy;
-    @CreatedDate
-    private Date createdTime;
-    @LastModifiedBy
-    private String updateBy;
-    @LastModifiedDate
-    private Date updateTime;
+
 }
