@@ -42,7 +42,7 @@ public class VaultController {
 
     @GetMapping("/openFiles")
     @AccessAuthorize(RoleType.LAWYER)
-    public ResponseMsg openFiles(String profileId, String documentIds) {
+    public ResponseMsg openFiles(@RequestParam String profileId, @RequestParam String documentIds) {
 
         return profileService.openFiles(profileId, documentIds);
     }

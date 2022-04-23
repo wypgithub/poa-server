@@ -134,7 +134,7 @@ public class ProfileService {
 
         result.put("profile", profileRepository.findById(profileId));
 
-        result.put("documents", documentRepository.findAllById(Arrays.asList(documentIds.split(","))););
+        result.put("documents", documentRepository.findAllById(Arrays.asList(documentIds.split(","))));
 
         return ResponseMsg.ok(result);
     }
