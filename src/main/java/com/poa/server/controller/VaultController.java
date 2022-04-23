@@ -13,34 +13,39 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/profile")
-public class ProfileController {
+@RequestMapping("/vault")
+public class VaultController {
 
     @Autowired
     private ProfileService profileService;
 
-    @PostMapping
+    @PostMapping("/profile")
     @AccessAuthorize(RoleType.LAWYER)
     public ResponseMsg save(@RequestBody PoaProfile profile) {
         return profileService.save(profile);
     }
 
 
-    @GetMapping("{id}")
+    @GetMapping("/profile/{id}")
     @AccessAuthorize(RoleType.LAWYER)
     public ResponseMsg findById(@PathVariable String id) {
 
         return profileService.findById(id);
     }
 
-    @PostMapping("list")
+    @PostMapping("/profile/list")
     @AccessAuthorize(RoleType.LAWYER)
     public ResponseMsg findList(@RequestBody SearchParamVO paramVO) {
         return profileService.listAll(paramVO);
     }
 
 
+    @GetMapping("/openFiles")
+    @AccessAuthorize(RoleType.LAWYER)
+    public ResponseMsg openFiles(String profileId, String documentIds) {
 
+        return profileService.openFiles(profileId, documentIds);
+    }
 
 
 

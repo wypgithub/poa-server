@@ -17,4 +17,12 @@ public class SearchParamVO {
     private String virtuallyExecuted;
     private String startDate;
     private String endDate;
+    private String showDecease;
+    private String showClosed;
+
+
+    private String letter ;
+    private Boolean showAll;
+
+
 }

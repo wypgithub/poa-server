@@ -22,4 +22,7 @@ public interface ProfileRepository extends JpaRepository<PoaProfile, String> {
             nativeQuery = true)
     Page<PoaProfile> findProfiles(Pageable pageable);
 
+
+
+
 }
