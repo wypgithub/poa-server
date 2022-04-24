@@ -3,6 +3,7 @@ package com.poa.server.controller;
 import com.poa.server.annotation.AccessAuthorize;
 import com.poa.server.entity.PoaDocument;
 import com.poa.server.entity.PoaRegistry;
+import com.poa.server.entity.PoaShared;
 import com.poa.server.exception.PoaException;
 import com.poa.server.service.FileService;
 import com.poa.server.service.PoaService;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("api/poa")
+@RequestMapping("/poa")
 public class PoaController {
 
     @Autowired
@@ -42,8 +43,11 @@ public class PoaController {
         return poaService.listDocument(profileId);
     }
 
-
-
+    @PostMapping("/shared")
+    @AccessAuthorize(RoleType.LAWYER)
+    public ResponseMsg shared(@RequestBody PoaShared shared) {
+        return poaService.shared(shared);
+    }
 
 
 }

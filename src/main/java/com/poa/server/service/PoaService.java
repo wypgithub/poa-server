@@ -1,30 +1,23 @@
 package com.poa.server.service;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.lang.UUID;
 import com.poa.server.entity.PoaDocument;
 import com.poa.server.entity.PoaFile;
 import com.poa.server.entity.PoaPermission;
-import com.poa.server.entity.PoaRegistry;
-import com.poa.server.exception.PoaException;
+import com.poa.server.entity.PoaShared;
 import com.poa.server.repository.DocumentRepository;
 import com.poa.server.repository.FileRepository;
 import com.poa.server.repository.PermissionRepository;
-import com.poa.server.repository.RegistryRepository;
+import com.poa.server.repository.SharedRepository;
 import com.poa.server.util.Constants;
 import com.poa.server.util.ResponseMsg;
-import com.poa.server.util.UserUtil;
 import com.poa.server.vo.PoaDocumentVO;
 import com.poa.server.vo.PoaFileVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,15 +29,17 @@ import java.util.Optional;
 @Service
 public class PoaService {
 
-
-    @Autowired
-    private FileService fileService;
     @Autowired
     private FileRepository fileRepository;
+    @Autowired
+    private SharedRepository sharedRepository;
     @Autowired
     private DocumentRepository documentRepository;
     @Autowired
     private PermissionRepository permissionRepository;
+
+
+
 
 
     @Transactional(rollbackFor = Exception.class)
@@ -106,6 +101,18 @@ public class PoaService {
 
         return ResponseMsg.ok();
     }
+
+    public ResponseMsg shared(PoaShared shared) {
+        if (!sharedRepository.findByEmailAndDocumentId(shared.getEmail(), shared.getDocumentId()).isEmpty()){
+            return ResponseMsg.error("Duplicated, Please change the email");
+        }
+
+        sharedRepository.save(shared);
+
+        return ResponseMsg.ok();
+    }
+
+
 
 
 

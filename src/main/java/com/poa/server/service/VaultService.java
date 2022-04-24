@@ -1,6 +1,5 @@
 package com.poa.server.service;
 
-import cn.hutool.core.collection.CollUtil;
 import com.poa.server.entity.PoaEstateTrustee;
 import com.poa.server.entity.PoaProfile;
 import com.poa.server.repository.DocumentRepository;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,11 +41,11 @@ public class VaultService {
         if (StringUtils.isBlank(profile.getId())){
             profile.setStatus(Constants.ProfileStatus.Open);
             if (!profileRepository.findByEmailAndStatus(profile.getEmail(), profile.getStatus()).isEmpty()){
-                return ResponseMsg.error("Exist Profile associated with this email");
+                return ResponseMsg.error("Duplicated, Please change the email");
             }
         }else {
             if (!profileRepository.findByEmailAndStatusAndIdNot(profile.getEmail(), profile.getStatus(), profile.getId()).isEmpty()){
-                return ResponseMsg.error("Exist Profile associated with this email");
+                return ResponseMsg.error("Duplicated, Please change the email");
             }
             //update all documents for the grantor TODO
             if (Constants.ProfileStatus.Deceased.equals(profile.getStatus())){
@@ -88,8 +86,32 @@ public class VaultService {
         return ResponseMsg.ok();
     }
 
-    private String getCondtionSql(SearchParamVO paramVO){
+    private String getDocumentSql(SearchParamVO paramVO){
         StringBuffer querySql = new StringBuffer();
+        if(StringUtils.isNotBlank(paramVO.getDocumentType())){
+            querySql.append(String.format(" and d.type = '%s'", paramVO.getDocumentType()));
+        }
+        if(StringUtils.isNotBlank(paramVO.getDocumentStatus())){
+            querySql.append(String.format(" and d.status = '%s'", paramVO.getDocumentStatus()));
+        }
+        if(StringUtils.isNotBlank(paramVO.getStartDate())){
+            if(StringUtils.isNotBlank(paramVO.getDocumentStatus())){
+                querySql.append(String.format(" and d.update_time >= '%s'", paramVO.getStartDate()));
+            }else {
+                querySql.append(String.format(" and d.created_time > '%s'", paramVO.getStartDate()));
+            }
+        }
+        if(StringUtils.isNotBlank(paramVO.getEndDate())){
+            querySql.append(String.format(" and d.update_time <= '%s'", paramVO.getEndDate  ()));
+        }
+
+        return querySql.toString();
+    }
+
+    public ResponseMsg listAll(SearchParamVO paramVO) {
+        StringBuffer querySql = new StringBuffer();
+        querySql.append(" select d.profile_id,p.first_name,p.middle_name,p.last_name,count(d.id) as files");
+        querySql.append(" from poa_document d,poa_profile p where d.profile_id=p.id");
         if(StringUtils.isNotBlank(paramVO.getLetter())){
             querySql.append(String.format(" and left(p.last_name,1) = '%s'", paramVO.getLetter()));
         }else{
@@ -102,59 +124,32 @@ public class VaultService {
             if(StringUtils.isNotBlank(paramVO.getLastName())){
                 querySql.append(String.format(" and p.last_name = '%s'", paramVO.getLastName()));
             }
-            if(StringUtils.isNotBlank(paramVO.getDocumentType())){
-                querySql.append(String.format(" and d.type = '%s'", paramVO.getDocumentType()));
-            }
-            if(StringUtils.isNotBlank(paramVO.getDocumentStatus())){
-                querySql.append(String.format(" and d.status = '%s'", paramVO.getDocumentStatus()));
-            }
-            if(StringUtils.isNotBlank(paramVO.getStartDate())){
-                if(StringUtils.isNotBlank(paramVO.getDocumentStatus())){
-                    querySql.append(String.format(" and d.update_time >= '%s'", paramVO.getStartDate()));
-                }else {
-                    querySql.append(String.format(" and d.created_time > '%s'", paramVO.getStartDate()));
-                }
-            }
-            if(StringUtils.isNotBlank(paramVO.getEndDate())){
-                querySql.append(String.format(" and d.update_time <= '%s'", paramVO.getEndDate  ()));
-            }
+            querySql.append(getDocumentSql(paramVO));
         }
-
         if(StringUtils.isBlank(paramVO.getShowDecease())){
             querySql.append(String.format(" and p.status != 'Decease'"));
         }
         if(StringUtils.isBlank(paramVO.getShowClosed())){
             querySql.append(String.format(" and p.status != 'Inactive'"));
         }
+        querySql.append(" group by d.profile_id,p.first_name,p.middle_name,p.last_name");
+        Page<Map<String, Object>> resultPage = sqlQueryDao.findAll(querySql.toString(), paramVO.getPageNum(), paramVO.getPageSize());
 
-        return querySql.toString();
-    }
+        List<Map<String, Object>> resultList = resultPage.getContent();
+        for (Map<String, Object> result : resultList){
+            String profile_id = result.get("profile_id").toString();
 
-    public ResponseMsg listAll(SearchParamVO paramVO) {
-        StringBuffer querySql = new StringBuffer();
-        querySql.append(" select d.profile_id,p.first_name,p.middle_name,p.last_name,count(d.id) as files");
-        querySql.append(" from poa_document d,poa_profile p where d.profile_id=p.id");
-        querySql.append(getCondtionSql(paramVO));
-
-        querySql.append(" group by p.first_name,p.middle_name,p.last_name");
-        Page<Map<String, Object>> result = sqlQueryDao.findAll(querySql.toString(), paramVO.getPageNum(), paramVO.getPageSize());
-
-
-        List<Map<String, Object>> list = result.getContent();
-        for (Map<String, Object> map : list){
             StringBuffer querySql2 = new StringBuffer();
-            querySql2.append(String.format(" select d.id from poa_document d,poa_profile p where d.profile_id='%s'", map.get("profile_id")));
-            querySql2.append(getCondtionSql(paramVO));
-            List<Map<String, Object>> resultList = sqlQueryDao.findList(querySql.toString());
+            querySql2.append(String.format(" select d.id from poa_document d where d.profile_id='%s'", profile_id));
+            querySql2.append(getDocumentSql(paramVO));
 
-
-            CollUtil.f
-
+            result.put("document_ids", sqlQueryDao.findList(querySql2.toString()));
         }
 
-
-
-
+        Map<String, Object> result = new HashMap<>();
+        result.put("content", resultPage.getContent());
+        result.put("totals", resultPage.getTotalElements());
+        result.put("totalPages", resultPage.getTotalPages());
 
         return ResponseMsg.ok(result);
     }
@@ -170,7 +165,7 @@ public class VaultService {
                 Constants.FileType.AOE));
         querySql.append(String.format(" from poa_document p where id in('%s')", documentIds.replaceAll(",", "','")));
 
-        result.put("documents", sqlQueryDao.findList(querySql.toString()));
+        result.put("documents", sqlQueryDao.findMapList(querySql.toString()));
         result.put("profile", profileRepository.findById(profileId));
 
         return ResponseMsg.ok(result);

@@ -6,18 +6,18 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
-
 
 @Data
 @Entity
-public class PoaRegistry extends BaseEntity{
+public class PoaShared extends BaseEntity{
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
     private String documentId;
-    private String status;
+    private String fullName;
+    private String email;
 
+    private String status;
 }
