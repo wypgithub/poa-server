@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class PageQueryDao {
+public class SqlQueryDao {
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -31,5 +31,13 @@ public class PageQueryDao {
         Long pageTotal = Long.valueOf(queryCount.getSingleResult().toString());
 
         return new PageImpl<>(resultList, PageRequest.of(pageNum, pageSize), pageTotal);
+    }
+
+    public List<Map<String, Object>> findList(String querySql) {
+        NativeQueryImpl query = entityManager.createNativeQuery(querySql).unwrap(NativeQueryImpl.class);
+
+        query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+
+        return query.getResultList();
     }
 }

@@ -36,8 +36,6 @@ public class PoaDocument extends BaseEntity{
     private String consentVault;
 
 
-    private String registry;
-    private String direction;
     private String consent;
 
 

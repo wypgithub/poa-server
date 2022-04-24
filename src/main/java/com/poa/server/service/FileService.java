@@ -8,15 +8,16 @@ import com.azure.storage.blob.BlobServiceClient;
 import com.poa.server.entity.PoaFile;
 import com.poa.server.exception.PoaException;
 import com.poa.server.repository.FileRepository;
-import com.poa.server.util.IdUtil;
-import com.poa.server.util.UserUtil;
+import com.poa.server.util.ResponseMsg;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.Date;
+import java.io.IOException;
 import java.util.Optional;
 
 @Slf4j
@@ -34,6 +35,39 @@ public class FileService {
 
     @Value("${dpoa.redis-key.file-id-incr}")
     private String FILE_ID_INCR;
+
+    public ResponseMsg uploadFile(MultipartFile file, String type, String refId){
+        if (file.isEmpty()) {
+            return ResponseMsg.msg("file can not be null!");
+        }
+
+        try {
+            String fileName = file.getOriginalFilename();
+            String suffix = fileName.substring(fileName.lastIndexOf("."));
+
+            // generate temporary file
+            final File temporaryFile = File.createTempFile(UUID.fastUUID().toString(), suffix);
+
+            // MultipartFile to File
+            file.transferTo(temporaryFile);
+
+            uploadFileToStorage(temporaryFile);
+
+            PoaFile poaFile = new PoaFile();
+            poaFile.setType(type);
+            if (StringUtils.isNotBlank(refId)){
+                poaFile.setRefId(refId);
+            }
+            poaFile.setName(fileName);
+            poaFile.setAzureFileName(temporaryFile.getName());
+
+            return ResponseMsg.ok(fileRepository.save(poaFile).getId());
+
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            return ResponseMsg.error("upload file error");
+        }
+    }
 
     /**
      * upload file to azure storage

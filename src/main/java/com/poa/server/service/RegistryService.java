@@ -25,7 +25,6 @@ public class RegistryService {
         registryRepository.save(registry);
 
         PoaDocument document = documentRepository.findById(registry.getDocumentId()).get();
-        document.setRegistry("YES");
         documentRepository.save(document);
 
         return ResponseMsg.ok();

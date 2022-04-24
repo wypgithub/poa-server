@@ -46,31 +46,6 @@ public class PoaService {
     @Autowired
     private PermissionRepository permissionRepository;
 
-    public ResponseMsg uploadFile(String fileType, MultipartFile file) throws IOException {
-        if (file.isEmpty()) {
-            return ResponseMsg.msg("file can not be null!");
-        }
-
-        String fileName = file.getOriginalFilename();
-        String suffix = fileName.substring(fileName.lastIndexOf("."));
-
-        // generate temporary file
-        final File temporaryFile = File.createTempFile(UUID.fastUUID().toString(), suffix);
-
-        // MultipartFile to File
-        file.transferTo(temporaryFile);
-
-        fileService.uploadFileToStorage(temporaryFile);
-
-        PoaFile poaFile = new PoaFile();
-        poaFile.setType(fileType);
-        poaFile.setName(fileName);
-        poaFile.setAzureFileName(temporaryFile.getName());
-
-
-        return ResponseMsg.ok(fileRepository.save(poaFile).getId());
-    }
-
 
     @Transactional(rollbackFor = Exception.class)
     public ResponseMsg saveDocument(List<PoaDocumentVO> documents) {

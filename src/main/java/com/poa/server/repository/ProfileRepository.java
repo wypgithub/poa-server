@@ -18,11 +18,10 @@ import java.util.List;
 @Repository
 public interface ProfileRepository extends JpaRepository<PoaProfile, String> {
 
-    @Query(value = "select p.*,(select count(id) from poa_document where profile_id=p.id)files from poa_profile p",
-            nativeQuery = true)
-    Page<PoaProfile> findProfiles(Pageable pageable);
+    List<PoaProfile> findByEmailAndStatus(String email, String status);
 
+    List<PoaProfile> findByEmailAndStatusAndIdNot(String email, String status, String id);
 
-
-
+   /* @Query(value = "select p from PoaProfile p where email=?1 and status=?2")
+    PoaProfile findByEmailAnd(String email, String status);*/
 }

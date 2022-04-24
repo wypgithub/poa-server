@@ -12,6 +12,8 @@ public final class Constants {
     public static class FileType{
         public static final int Profile = 1;
         public static final int Document = 2;
+        public static final int AOE = 3;
+        public static final int Direction = 4;
     }
 
     public static class ProfileStatus{
